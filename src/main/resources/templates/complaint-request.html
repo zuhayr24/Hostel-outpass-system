@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Request</title>
+    <link rel="icon" type="image/x-icon" href="pictures/graduated.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<a th:href="@{/student-dashboard}"
+   class="absolute top-4 right-4 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-full shadow-lg transition duration-300">
+    Back
+</a>
+
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-semibold text-center mb-6">Complaint Request</h2>
+
+    <div th:if="${message}" class="bg-green-200 text-green-800 text-center p-3 rounded-lg mb-4">
+        <p th:text="${message}"></p>
+    </div>
+
+    <form th:action="@{/submit-complaint}" method="post" th:object="${complaint}"
+          class="bg-white p-6 rounded-lg shadow-lg space-y-6 max-w-lg mx-auto">
+
+        <div>
+            <label for="roomNumber" class="block text-sm font-semibold">Room Number</label>
+            <input type="text" id="roomNumber" th:field="*{roomNumber}" class="w-full p-2 border rounded-lg" required>
+        </div>
+
+        <div>
+            <label for="complain" class="block text-sm font-semibold">Complaint</label>
+            <textarea id="complain" th:field="*{complain}" class="w-full p-2 border rounded-lg" rows="4" required></textarea>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300">
+                Submit Complaint
+            </button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Outpass Requests</title>
+    <link rel="icon" type="image/x-icon" href="pictures/graduated.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 font-sans">
+<a th:href="@{/student-dashboard}" class="absolute top-4 right-4 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-full shadow-lg transition duration-300">
+    Back
+</a>
+<div class="container mx-auto px-6 py-8">
+    <h2 class="text-3xl font-semibold text-center mb-6 animate__animated animate__fadeInDown">
+        Your Outpass Requests
+    </h2>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow-lg">
+            <thead>
+            <tr class="bg-gray-200 text-left">
+                <th class="py-3 px-4 border-b">Outpass ID</th>
+                <th class="py-3 px-4 border-b">Name</th>
+                <th class="py-3 px-4 border-b">From Date</th>
+                <th class="py-3 px-4 border-b">To Date</th>
+                <th class="py-3 px-4 border-b">Place of Visit</th>
+                <th class="py-3 px-4 border-b">Purpose</th>
+                <th class="py-3 px-4 border-b">Total Days</th>
+                <th class="py-3 px-4 border-b">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(outpasses)}">
+                <td colspan="8" class="text-center py-4">No outpass requests found.</td>
+            </tr>
+            <tr th:each="outpass : ${outpasses}">
+                <td class="py-3 px-4 border-b" th:text="${outpass.id}"></td>
+                <td class="py-3 px-4 border-b" th:text="${outpass.name}"></td>
+                <td class="py-3 px-4 border-b" th:text="${outpass.fromDate}"></td>
+                <td class="py-3 px-4 border-b" th:text="${outpass.toDate}"></td>
+                <td class="py-3 px-4 border-b" th:text="${outpass.placeOfVisit}"></td>
+                <td class="py-3 px-4 border-b" th:text="${outpass.purpose}"></td>
+                <td class="py-3 px-4 border-b" th:text="${outpass.totalDays}"></td>
+                <td class="py-3 px-4 border-b"
+                    th:text="${outpass.status}"
+                    th:classappend="${outpass.status == 'Accepted' ? 'text-green-600 font-bold' :
+                                 outpass.status == 'Rejected' ? 'text-red-600 font-bold' :
+                                 outpass.status == 'Pending' ? 'text-yellow-600 font-bold' : ''}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script th:if="${outpasses.isEmpty()}" th:inline="javascript">
+    alert("No outpass requests found.");
+</script>
+</body>
+</html>

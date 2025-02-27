@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Complaints</title>
+    <link rel="icon" type="image/x-icon" href="pictures/graduated.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 font-sans">
+<a th:href="@{/warden-dashboard}"
+   class="absolute top-4 right-4 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-full shadow-lg transition duration-300">
+    Back
+</a>
+<div class="container mx-auto px-6 py-8">
+    <h2 class="text-3xl font-semibold text-center mb-6 animate__animated animate__fadeInDown">Your Complaints</h2>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow-lg">
+            <thead>
+            <tr class="bg-gray-200 text-left">
+                <th class="py-3 px-4 border-b">Complaint ID</th>
+                <th class="py-3 px-4 border-b">Name</th>
+                <th class="py-3 px-4 border-b">Room Number</th>
+                <th class="py-3 px-4 border-b">Complaint Reason</th>
+                <th class="py-3 px-4 border-b">Status</th>
+                <th class="py-3 px-4 border-b">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Display message if no complaints found -->
+            <tr th:if="${#lists.isEmpty(complaints)}">
+                <td colspan="6" class="text-center py-4">No complaints found.</td>
+            </tr>
+            <!-- Iterate over complaints -->
+            <tr th:each="complaint : ${complaints}">
+                <td class="py-3 px-4 border-b" th:text="${complaint.id}"></td>
+                <td class="py-3 px-4 border-b" th:text="${complaint.name}"></td>
+                <td class="py-3 px-4 border-b" th:text="${complaint.roomNumber}"></td>
+                <td class="py-3 px-4 border-b" th:text="${complaint.complain}"></td>
+                <td class="py-3 px-4 border-b"
+                    th:text="${complaint.status}"
+                    th:classappend="${complaint.status == 'Resolved' ? ' text-green-600 font-bold' : ' text-yellow-600 font-bold'}">
+                </td>
+                <td class="py-3 px-4 border-b text-center">
+                    <div th:if="${complaint.status != 'Resolved'}">
+                        <a th:href="@{/complaint/update-status/{id}(id=${complaint.id}, status='Resolved')}"
+                           class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded">
+                            Resolved
+                        </a>
+
+                    </div>
+                    <div th:if="${complaint.status == 'Resolved'}" th:text="'Resolved'"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

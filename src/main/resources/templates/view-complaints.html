@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Complaints</title>
+    <link rel="icon" type="image/x-icon" href="pictures/graduated.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 font-sans">
+<a th:href="@{/student-dashboard}" class="absolute top-4 right-4 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-full shadow-lg transition duration-300">
+    Back
+</a>
+<div class="container mx-auto px-6 py-8">
+    <h2 class="text-3xl font-semibold text-center mb-6">Your Complaints</h2>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow-lg">
+            <thead>
+            <tr class="bg-gray-200 text-left">
+                <th class="py-3 px-4 border-b">Complaint ID</th>
+                <th class="py-3 px-4 border-b">Room Number</th>
+                <th class="py-3 px-4 border-b">Complaint Description</th>
+                <th class="py-3 px-4 border-b text-right">Status</th> <!-- Moved Status to extreme right -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${complaints.isEmpty()}">
+                <td colspan="4" class="text-center py-4">No complaints found.</td>
+            </tr>
+            <tr th:each="complaint : ${complaints}">
+                <td class="py-3 px-4 border-b" th:text="${complaint.id}"></td>
+                <td class="py-3 px-4 border-b" th:text="${complaint.roomNumber}"></td>
+                <td class="py-3 px-4 border-b" th:text="${complaint.complain}"></td>
+                <td class="py-3 px-4 border-b text-right"
+                    th:text="${complaint.status}"
+                    th:classappend="${complaint.status == 'Resolved' ? 'text-green-600' : 'text-yellow-600'}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

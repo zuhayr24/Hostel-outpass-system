@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warden Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="pictures/graduated.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Animate.css -->
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col items-center justify-center">
+
+    <!-- Logout Button -->
+    <a th:href="@{/warden-login}"
+       class="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-full shadow-lg transition duration-300 text-center">
+        Logout
+    </a>
+
+
+    <h2 class="text-3xl font-semibold text-center mb-8">Warden Dashboard</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl px-4">
+        <!-- View Outpass Requests Card -->
+        <div class="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition duration-300 animate__animated animate__fadeInUp">
+            <h3 class="text-xl font-semibold mb-4">View Outpass Requests</h3>
+            <p class="text-gray-600 mb-4">Check and manage students' outpass requests.</p>
+            <a th:href="@{/outpass/requests}"
+               class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition duration-300 text-center inline-block">
+                View Requests
+            </a>
+        </div>
+
+        <!-- View Complaints Card -->
+        <div class="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition duration-300 animate__animated animate__fadeInUp animate__delay-1s">
+            <h3 class="text-xl font-semibold mb-4">View Complaints</h3>
+            <p class="text-gray-600 mb-4">Review and address students' complaints.</p>
+            <a th:href="@{/requests}"
+               class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition duration-300 text-center inline-block">
+                View Complaints
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

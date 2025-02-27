@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outpass Request</title>
+    <link rel="icon" type="image/x-icon" href="pictures/graduated.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<a th:href="@{/student-dashboard}" class="absolute top-4 right-4 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-full shadow-lg transition duration-300">
+    Back
+</a>
+
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-semibold text-center mb-6">Outpass Request</h2>
+    <form id="outpass-form" class="bg-white p-6 rounded-lg shadow-lg space-y-6 max-w-lg mx-auto">
+        <div>
+            <label for="from-date" class="block text-sm font-semibold">From Date</label>
+            <input type="date" id="from-date" name="fromDate" class="w-full p-2 border rounded-lg" required>
+        </div>
+        <div>
+            <label for="to-date" class="block text-sm font-semibold">To Date</label>
+            <input type="date" id="to-date" name="toDate" class="w-full p-2 border rounded-lg" required>
+        </div>
+        <div>
+            <label for="total-days" class="block text-sm font-semibold">Total Days</label>
+            <input type="text" id="total-days" name="totalDays" class="w-full p-2 border rounded-lg" readonly>
+        </div>
+        <div>
+            <label for="place-of-visit" class="block text-sm font-semibold">Place of Visit</label>
+            <input type="text" id="place-of-visit" name="placeOfVisit" class="w-full p-2 border rounded-lg" required>
+        </div>
+        <div>
+            <label for="purpose" class="block text-sm font-semibold">Purpose</label>
+            <input type="text" id="purpose" name="purpose" class="w-full p-2 border rounded-lg" required>
+        </div>
+        <div>
+            <label for="emergency-contact" class="block text-sm font-semibold">Emergency Contact</label>
+            <input type="tel" id="emergency-contact" name="emergencyContact" class="w-full p-2 border rounded-lg" required>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300">
+                Submit Request
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const fromDateInput = document.getElementById('from-date');
+    const toDateInput = document.getElementById('to-date');
+    const totalDaysInput = document.getElementById('total-days');
+    const emergencyContactInput = document.getElementById('emergency-contact');
+
+    function calculateTotalDays() {
+        const fromDate = new Date(fromDateInput.value);
+        const toDate = new Date(toDateInput.value);
+
+        if (fromDate && toDate && !isNaN(fromDate) && !isNaN(toDate) && fromDate <= toDate) {
+            const timeDifference = toDate.getTime() - fromDate.getTime();
+            const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
+            totalDaysInput.value = daysDifference;
+        } else {
+            totalDaysInput.value = '';
+        }
+    }
+
+    fromDateInput.addEventListener('change', calculateTotalDays);
+    toDateInput.addEventListener('change', calculateTotalDays);
+
+    document.getElementById('outpass-form').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const outpassData = {};
+
+        formData.forEach((value, key) => {
+            outpassData[key] = value;
+        });
+
+        outpassData.totalDays = parseInt(document.getElementById('total-days').value);
+        outpassData.studentRegNo = "202312345"; // Replace with actual logged-in student reg_no
+
+        // Validate 10-digit emergency contact number
+        const phoneNumber = emergencyContactInput.value.trim();
+        const phoneRegex = /^\d{10}$/;
+
+        if (!phoneRegex.test(phoneNumber)) {
+            alert("Please enter a valid 10-digit emergency contact number.");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8080/outpass/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(outpassData),
+            });
+
+            if (response.ok) {
+                alert("Outpass request submitted successfully!");
+            } else {
+                alert("Failed to submit request.");
+            }
+        } catch (error) {
+            console.error("Error submitting outpass:", error);
+        }
+    });
+</script>
+
+</body>
+</html>

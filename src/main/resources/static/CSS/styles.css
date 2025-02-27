@@ -1,0 +1,98 @@
+h1 {
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s ease;
+}
+h1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+}
+
+body.index-page {
+     background-image: url('[[${@{/pictures/bg.jpg}}]]');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+body.index-page::before { /* Keep the pseudo element inside the rule */
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}
+
+/* Other styles that apply to all pages (like .card, header) should be outside this rule */
+.card, header {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+/* styles.css */
+
+/* Animation to make the form appear from the bottom */
+@keyframes slideUp {
+    0% {
+        transform: translateY(100%); /* Start below the viewport */
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0); /* End at the original position */
+        opacity: 1;
+    }
+}
+
+/* Apply the slide-up animation to elements with the 'slide-up' class */
+.slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+}
+/* Fade-in slide-up animation */
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+/* styles.css */
+
+/* Slide-up animation */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Start from 20px below */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Move to original position */
+    }
+}
+
+/* Apply the animation to table rows */
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Initially hide the rows */
+.table-row-hidden {
+    opacity: 0;
+}
+
+       .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .nav-button {
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .nav-button:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
